@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 function Sign_in() {
@@ -27,11 +27,14 @@ function Sign_in() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/login`, {
-        method: "POST", // Login ต้องใช้ POST
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/login`,
+        {
+          method: "POST", // Login ต้องใช้ POST
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        },
+      );
 
       const result = await response.json();
 
@@ -50,19 +53,17 @@ function Sign_in() {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="w-screen h-screen flex flex-col items-center justify-center bg-gradient-to-b from-[#E2E2E2] to-[#142845]">
-        <div className="w-16 h-16 border-4 border-[#FFC800]/30 border-t-[#FFC800] rounded-full animate-spin"></div>
-        <p className="mt-4 text-[#FFC800] font-bold text-xl animate-pulse">
-          Loading...
-        </p>
-      </div>
-    );
-  }
-
   return (
     <>
+      {isLoading && (
+        <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gradient-to-b from-[#E2E2E2] to-[#142845]">
+          <div className="w-16 h-16 border-4 border-[#FFC800]/30 border-t-[#FFC800] rounded-full animate-spin"></div>
+          <p className="mt-4 text-[#FFC800] font-bold text-xl animate-pulse">
+            Loading...
+          </p>
+        </div>
+      )}
+
       <div className="w-screen h-screen bg-gradient-to-b from-[#E2E2E2] to-[#142845] flex items-center justify-center p-4">
         <div className="w-full max-w-[494px] min-h-fit bg-[#142845] rounded-[30px] flex flex-col items-center gap-6 md:gap-[30px] px-6 py-10 md:px-[70px] md:py[60px] shadow-2xl">
           <div className="text-3xl md:text-[48px] font-bold text-[#FFC800] mb-2 md:mb-0">
