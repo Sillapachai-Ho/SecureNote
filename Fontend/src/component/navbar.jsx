@@ -27,7 +27,7 @@ export default function Navbar() {
     setTimeout(() => {
       setIsLoggingOut(false);
       alert("ออกจากระบบสำเร็จ");
-      navigate("/sign-in");
+      navigate("/login");
     }, 1000);
   };
 

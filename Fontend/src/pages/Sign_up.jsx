@@ -51,7 +51,7 @@ function Sign_up() {
 
       if (response.ok) {
         alert("สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ");
-        navigate("/sign-in"); // ย้ายกลับไปหน้าล็อกอิน
+        navigate("/login"); // ย้ายกลับไปหน้าล็อกอิน
       } else {
         setErrorMsg("ไม่สามารถสมัครได้: ข้อมูลอาจซ้ำ หรือรหัสผ่านสั้นเกินไป");
       }
@@ -142,7 +142,7 @@ function Sign_up() {
 
           <div className="flex gap-2 text-sm text-[#D9D9D9] mt-2">
             <span>Already have an account?</span>
-            <Link to="/sign-in" className="text-[#FFC800] hover:underline">
+            <Link to="/login" className="text-[#FFC800] hover:underline">
               Sign In
             </Link>
           </div>

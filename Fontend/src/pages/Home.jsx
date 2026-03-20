@@ -183,7 +183,7 @@ function Home() {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 p-3 bg-yellow-500 text-[#142845] rounded-full font-bold hover:bg-[#FFC800] hover:text-[#142845] transition-all"
+                  className="flex-1 p-3 bg-yellow-500 text-[#142845] rounded-full font-bold hover:bg-[#FFC800] hover:text-[#142845] transition-all cursor-pointer"
                 >
                   Save Note
                 </button>
@@ -231,7 +231,7 @@ function Home() {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 p-3 bg-yellow-500 text-[#142845] rounded-full font-bold hover:bg-[#FFC800] hover:text-[#142845] transition-all"
+                  className="flex-1 p-3 bg-yellow-500 text-[#142845] rounded-full font-bold hover:bg-[#FFC800] hover:text-[#142845] transition-all cursor-pointer"
                 >
                   Update Note
                 </button>

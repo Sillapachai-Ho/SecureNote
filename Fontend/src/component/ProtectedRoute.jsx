@@ -9,7 +9,7 @@ function ProtectedRoute({ children }) {
   // ถ้าไม่มีอย่างใดอย่างหนึ่ง ถือว่าไม่มี Session
   if (!token || !userId) {
     // เตะกลับไปหน้า Sign In ทันที
-    return <Navigate to="/sign-in" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   // ถ้ามี Session ก็ปล่อยให้เข้าหน้า Home ได้ตามปกติ
