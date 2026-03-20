@@ -103,11 +103,16 @@ function Home() {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
+      const token = localStorage.getItem("token");
+
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/notes/${editingNote.id}`,
         {
           method: "PATCH",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: token ? `Bearer ${token}` : "",
+          },
           body: JSON.stringify({
             title: editingNote.title,
             content: editingNote.content,
