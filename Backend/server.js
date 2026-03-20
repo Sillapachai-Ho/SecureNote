@@ -9,7 +9,7 @@ const app = express();
 app.use(helmet());
 app.use(
   cors({
-    origin: "http://localhost:5173", // URL ของ Vite
+    origin: "https://secure-note-notesboy.vercel.app/", // URL ของ Vite
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   }),
 );
