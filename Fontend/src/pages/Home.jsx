@@ -132,7 +132,6 @@ function Home() {
   if (isLoading) {
     return (
       <div className="w-screen h-screen flex flex-col items-center justify-center bg-gradient-to-b from-[#E2E2E2] to-[#142845]">
-        {/* วงกลม Spinner หมุนๆ สีเหลือง (สีธีมของคุณ) */}
         <div className="w-16 h-16 border-4 border-[#FFC800]/30 border-t-[#FFC800] rounded-full animate-spin"></div>
         <p className="mt-4 text-[#FFC800] font-bold text-xl animate-pulse">
           Loading your notes...
@@ -145,7 +144,6 @@ function Home() {
     <>
       <Navbar />
 
-      {/* ส่วนของหน้าต่าง Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white w-full max-w-md rounded-[30px] p-8 shadow-2xl">
@@ -193,7 +191,6 @@ function Home() {
         </div>
       )}
 
-      {/* ส่วนของหน้าต่าง Modal สำหรับแก้ไข (Edit) */}
       {editingNote && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white w-full max-w-md rounded-[30px] p-8 shadow-2xl">
@@ -241,7 +238,6 @@ function Home() {
         </div>
       )}
 
-      {/* สำหรับดู Notes */}
       {viewingNote && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-[60] p-4">
           <div className="bg-white w-full max-w-2xl rounded-[30px] p-10 relative shadow-2xl">
@@ -278,7 +274,6 @@ function Home() {
                 <span className="text-4xl text-[#494949]">+</span>
               </div>
 
-              {/* 2. วนลูปแสดงโน้ตจาก API */}
               {notes.map((note) => (
                 <div
                   key={note.id}
@@ -293,7 +288,7 @@ function Home() {
                     <div className="flex gap-2">
                       <button
                         onClick={(e) => {
-                          e.stopPropagation(); // กันไม่ให้ไปติด event 'คลิกการ์ด' ของ View
+                          e.stopPropagation();
                           setEditingNote(note);
                         }}
                         className="text-[#494949] hover:text-black transition-colors cursor-pointer"

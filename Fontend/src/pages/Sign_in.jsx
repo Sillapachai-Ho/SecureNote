@@ -13,15 +13,13 @@ function Sign_in() {
   // 1. สร้าง State สำหรับเก็บค่า Username และ Password
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate(); // ตัวช่วยเปลี่ยนหน้า
-
+  const navigate = useNavigate();
   useEffect(() => {
-    // ให้โหลดทิ้งไว้ 800 มิลลิวินาที (0.8 วินาที) แล้วค่อยโชว์หน้าล็อกอิน
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 800);
 
-    return () => clearTimeout(timer); // คืนค่าหน่วยความจำตอนเปลี่ยนหน้า
+    return () => clearTimeout(timer);
   }, []);
 
   const handleLogin = async (e) => {
@@ -30,7 +28,7 @@ function Sign_in() {
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/login`,
         {
-          method: "POST", // Login ต้องใช้ POST
+          method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username, password }),
         },
@@ -80,8 +78,8 @@ function Sign_in() {
                 type="text"
                 className="w-full text-[#424242] outline-none bg-transparent"
                 placeholder="Enter your username or email"
-                value={username} // เชื่อมกับ State
-                onChange={(e) => setUsername(e.target.value)} // อัปเดต State เมื่อพิมพ์
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
             </div>
           </div>
@@ -96,8 +94,8 @@ function Sign_in() {
                 type={showPassword ? "text" : "password"}
                 className="w-full h-full text-[#424242] outline-none bg-transparent"
                 placeholder="••••••••"
-                value={password} // เชื่อมกับ State
-                onChange={(e) => setPassword(e.target.value)} // อัปเดต State เมื่อพิมพ์
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <button
                 type="button"
@@ -105,7 +103,6 @@ function Sign_in() {
                 className="absolute right-6 text-[#424242] hover:text-[#142845] transition-all"
               >
                 {showPassword ? (
-                  /* ไอคอนตาเปิด (SVG) */
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -121,7 +118,6 @@ function Sign_in() {
                     <circle cx="12" cy="12" r="3" />
                   </svg>
                 ) : (
-                  /* ไอคอนตาปิด (SVG) */
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"

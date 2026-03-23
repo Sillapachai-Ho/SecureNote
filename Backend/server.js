@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import "dotenv/config"; // โหลดค่าจาก .env
+import "dotenv/config";
 import helmet from "helmet";
 
 const port = process.env.PORT || 5000;
@@ -9,8 +9,8 @@ const app = express();
 app.use(helmet());
 app.use(
   cors({
-    origin: "https://secure-note-notesboy.vercel.app",
-    // origin: "http://localhost:5173",
+    origin: "https://secure-note-notesboy.vercel.app", //deploy vercel
+    // origin: "http://localhost:5173", //local host
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   }),
 );
@@ -27,17 +27,16 @@ const PB_BASE_URL = process.env.POCKETBASE_URL;
 const PB_TOKEN = process.env.POCKETBASE_TOKEN;
 
 const generateNumericId = () => {
-  const timestamp = Date.now().toString(); // ได้เลข 13 หลัก (เช่น 1710870000000)
+  const timestamp = Date.now().toString();
   const randomNum = Math.floor(Math.random() * 100)
     .toString()
-    .padStart(2, "0"); // สุ่ม 2 หลัก
-  return timestamp + randomNum; // รวมเป็น 15 หลักพอดีเป๊ะตามกฎ PocketBase
+    .padStart(2, "0");
+  return timestamp + randomNum;
 };
 
 // Middleware
 const requireAuth = async (req, res, next) => {
   try {
-    // 1. ดึง Token ที่ React ส่งมาทาง Header
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
 
@@ -45,8 +44,6 @@ const requireAuth = async (req, res, next) => {
       return res.status(401).json({ message: "No Session: กรุณาล็อกอิน" });
     }
 
-    // 2. นำ Token ไปถาม PocketBase ว่าบัตรใบนี้ยังใช้งานได้อยู่ไหม
-    // (PocketBase มีระบบเช็ค Token ให้ในตัว)
     const verifyUrl = `${PB_BASE_URL}/api/collections/users/auth-refresh`;
     const response = await fetch(verifyUrl, {
       method: "POST",
@@ -56,10 +53,8 @@ const requireAuth = async (req, res, next) => {
     });
 
     if (response.ok) {
-      // ถ้ายืนยันสำเร็จ ให้ทำคำสั่งถัดไปได้เลย (เช่น ไปดึงข้อมูลโน้ต)
       next();
     } else {
-      // ถ้า Token หมดอายุ หรือเป็นของปลอม
       return res
         .status(401)
         .json({ message: "Session Expired: เซสชันหมดอายุ" });
@@ -69,7 +64,7 @@ const requireAuth = async (req, res, next) => {
   }
 };
 
-// --- [CREATE] สมัครสมาชิก (Sign Up) ---
+//Sign Up
 app.post("/api/signup", async (req, res) => {
   const PB_USERS_URL = `${PB_BASE_URL}/api/collections/users/records`;
   const newNumericId = generateNumericId();
@@ -99,7 +94,7 @@ app.post("/api/signup", async (req, res) => {
   }
 });
 
-// สร้างทางผ่าน (Endpoint) สำหรับ Login
+//Login
 app.post("/api/login", async (req, res) => {
   try {
     const PB_AUTH_URL = `${PB_BASE_URL}/api/collections/users/auth-with-password`;
@@ -120,7 +115,11 @@ app.post("/api/login", async (req, res) => {
         message: "Login Success",
         token: data.token,
         userId: data.record.id,
-        username: data.record.username || data.record.name || data.record.email ||"User",
+        username:
+          data.record.username ||
+          data.record.name ||
+          data.record.email ||
+          "User",
       });
     } else {
       res.status(401).json({ message: "Username หรือ Password ไม่ถูกต้อง" });
@@ -130,7 +129,7 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-// --- [READ] ดึงข้อมูลทั้งหมด ---
+//ดึงข้อมูลทั้งหมด
 app.get("/api/notes", requireAuth, async (req, res) => {
   try {
     const userIdString = req.query.userId;
@@ -153,7 +152,7 @@ app.get("/api/notes", requireAuth, async (req, res) => {
   }
 });
 
-// --- [CREATE] เพิ่มข้อมูลใหม่ ---
+//เพิ่มข้อมูลใหม่
 app.post("/api/notes", requireAuth, async (req, res) => {
   try {
     const targetUrl = `${PB_BASE_URL}/api/collections/notes/records`;
@@ -173,7 +172,7 @@ app.post("/api/notes", requireAuth, async (req, res) => {
   }
 });
 
-// --- [UPDATE] แก้ไขข้อมูลโน้ตตาม ID ---
+//แก้ไขข้อมูลโน้ตตาม ID
 app.patch("/api/notes/:id", requireAuth, async (req, res) => {
   const { id } = req.params;
   try {
@@ -194,7 +193,7 @@ app.patch("/api/notes/:id", requireAuth, async (req, res) => {
   }
 });
 
-// --- [DELETE] ลบข้อมูลตาม ID ---
+//ลบข้อมูลตาม ID 
 app.delete("/api/notes/:id", requireAuth, async (req, res) => {
   const { id } = req.params;
   try {

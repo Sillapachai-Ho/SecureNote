@@ -12,32 +12,28 @@ function Sign_up() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
 
-  // อัปเดตข้อมูลเมื่อมีการพิมพ์
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   useEffect(() => {
-    // ให้แผ่น Loading บังหน้าจอไว้ 800 มิลลิวินาที (0.8 วินาที)
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 800);
 
-    return () => clearTimeout(timer); // คืนค่าหน่วยความจำ
+    return () => clearTimeout(timer);
   }, []);
 
   const handleSignUp = async (e) => {
     e.preventDefault();
     setErrorMsg("");
 
-    // เช็คเบื้องต้นว่ารหัสผ่านตรงกันหรือไม่
     if (formData.password !== formData.passwordConfirm) {
       setErrorMsg("รหัสผ่านไม่ตรงกัน กรุณาตรวจสอบอีกครั้ง");
       return;
     }
 
     try {
-      // เรียกใช้ API ของ Express ที่เราสร้างไว้
       const response = await fetch(
         `${import.meta.env.VITE_API_URL}/api/signup`,
         {
@@ -51,7 +47,7 @@ function Sign_up() {
 
       if (response.ok) {
         alert("สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ");
-        navigate("/login"); // ย้ายกลับไปหน้าล็อกอิน
+        navigate("/login");
       } else {
         setErrorMsg("ไม่สามารถสมัครได้: ข้อมูลอาจซ้ำ หรือรหัสผ่านสั้นเกินไป");
       }
